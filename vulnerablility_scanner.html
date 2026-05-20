@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vulnerability Scanner</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  background-color: hsl(290, 95%, 15%);
+  color: hsl(221, 88%, 90%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.container {
+  width: 500px;
+  padding: 25px;
+  background-color: hsl(290, 88%, 22%);
+  border-radius: 25px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+  text-align: center;
+}
+
+input {
+  width: 90%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 15px;
+  border: 1px solid hsl(290, 88%, 57%);
+  background-color: hsl(290, 88%, 25%);
+  color: white;
+  text-align: center;
+  outline : none;
+}
+
+button {
+  padding: 10px 20px;
+  border-radius: 15px;
+  border: none;
+  background-color: hsl(290, 88%, 57%);
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  transition :0.3s;
+}
+
+button:hover {
+  background-color: hsl(290, 88%, 65%);
+}
+
+.container2 {
+  width: 100%;
+  padding: 15px;
+  background-color: hsl(290, 88%, 18%);
+  border-radius: 20px;
+}
+
+.report {
+  margin-top: 10px;
+}
+
+.report div {
+  margin: 8px 0;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: hsl(290, 88%, 25%);
+}
+
+@media print {
+  body * {
+    visibility : hidden; 
+
+  }
+  .container2,
+  .container2 * {
+    visibility : visible ;
+  }
+
+  .container2{
+    position : absolute ;
+    left: 0 ;
+    top : 0;
+    width: 100%;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Mini Vulnerability Scanner</h1>
+
+  <input type="text" id="url-input" placeholder="Enter website (e.g. https://example.com)">
+
+  <button onclick="scanWebsite()">Scan</button>
+
+  <div class="container2">
+    <div id="report" class="report"></div>
+  </div>
+</div>
+
+<script>
+function scanWebsite() {
+  const url = document.getElementById("url-input").value.trim()
+  const reportDiv = document.getElementById("report")
+
+  reportDiv.innerHTML = ""
+
+  if (!url) {
+    reportDiv.innerHTML = "<div>Please enter a URL</div>"
+    return
+  }
+reportDiv.innerHTML='<div style= "text-align:center;">⏳ Scanning website...,</div>'
+
+setTimeout(() => {
+ reportDiv.innerHTML = ""
+  const results = []
+
+  if (url.startsWith("https://")) {
+    results.push("✔ HTTPS Enabled (Secure)")
+  } else {
+    results.push("❌ Not Secure (No HTTPS)")
+  }
+
+  const ports = ["Port 80 (HTTP) - Open", "Port 443 (HTTPS) - Open"]
+  ports.forEach(port => {
+    results.push("⚠ " + port)
+  })
+
+  if (url.includes("test") || url.includes("demo")) {
+    results.push("⚠ Possible weak configuration detected")
+  } else {
+    results.push("✔ No obvious vulnerabilities found")
+  }
+
+  if (url.includes("old") || url.includes("legacy")) {
+    results.push("⚠ Outdated software detected")
+  } else {
+    results.push("✔ Software appears up-to-date")
+  }
+
+ results.push("🕒 Scan Completed: " + new Date().toLocaleString())
+
+  const heading = document.createElement("div")
+  heading.innerText = "Vulnerability Report"
+  heading.style.fontWeight = "bold"
+  heading.style.fontSize = "18px"
+  heading.style.marginBottom = "10px"
+  reportDiv.appendChild(heading)
+
+  results.forEach(item => {
+    const div = document.createElement("div")
+    div.innerText = item
+    reportDiv.appendChild(div)
+  })
+}, 2000)
+
+function downloadReport(){
+  const report = document.getElementById("report").innerHTML
+
+  if(report.trim() === ""){
+
+
+    alert("No report available to download ")
+
+    return
+  }
+  window.print()
+}
+
+}
+</script>
+
+</body>
+</html>
