@@ -4,7 +4,7 @@ A lightweight web-based vulnerability scanner tool that performs basic security 
 
 ## Overview
 
-The Mini Vulnerability Scanner is a client-side HTML application that analyzes URLs for common security vulnerabilities and misconfigurations. It provides a quick assessment of website security posture with an intuitive user interface.
+The Mini Vulnerability Scanner is a client-side HTML application that analyzes URLs for common security vulnerabilities and misconfigurations. It provides a quick assessment of website security posture.
 
 ## Features
 
@@ -15,6 +15,7 @@ The Mini Vulnerability Scanner is a client-side HTML application that analyzes U
 - **Real-time Scanning**: Simulates scanning with visual feedback
 - **Scan Reports**: Generates detailed vulnerability reports with timestamps
 - **Print-Friendly Reports**: Export scan results as printable documents
+- **Download Report**: Save or print the generated vulnerability report
 
 ## How to Use
 
@@ -23,12 +24,13 @@ The Mini Vulnerability Scanner is a client-side HTML application that analyzes U
 3. Click the **Scan** button
 4. Wait for the scan to complete (2-second simulation)
 5. Review the vulnerability report displayed below
-6. Optionally print or download the report using your browser's print function
+6. Click the **Download Report** button to print or save the report (shows alert if no report is available)
 
 ## User Interface
 
 - **Input Field**: Enter the target website URL
 - **Scan Button**: Initiate the vulnerability scan
+- **Download Report Button**: Export the scan results using the browser's print dialog
 - **Report Container**: Displays scan results with status indicators:
   - ✔ Passed security check
   - ❌ Security issue detected
@@ -55,6 +57,14 @@ The scanner checks for:
 2. **Port Accessibility**: Reports common HTTP/HTTPS ports
 3. **Weak Configuration**: Keywords like "test", "demo", "old", "legacy"
 4. **Software Currency**: Detects potential outdated systems
+
+### Report Download Functionality
+
+The **Download Report** button uses the `downloadReport()` function which:
+- Retrieves the generated vulnerability report from the report container
+- Validates that a report has been generated (prevents download of empty reports)
+- Triggers the browser's print dialog for saving or printing the report
+- Displays an alert if no report is available to download
 
 ## Technologies Used
 
